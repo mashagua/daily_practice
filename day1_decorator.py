@@ -31,26 +31,44 @@
 #
 # greet()
 #decorator with parameters
-def my_decorator(func):
-    def wrapper(messae):
-        print('wrapper of decorator')
-        func(messae)
-    return wrapper
-
-@my_decorator
+# def my_decorator(func):
+#     def wrapper(messae):
+#         print('wrapper of decorator')
+#         func(messae)
+#     return wrapper
+#
+# @my_decorator
+# def greet(message):
+#     print(message)
+#
+# greet('hello world')
+# # decorator with many parameters
+# def my_decorator(func):
+#     def wrapper(*args,**kwargs):
+#         print('wrapper of decorator')
+#         func(*args,**kwargs)
+#     return wrapper
+# with parameters of my own
+def repeat(num):
+    def my_decorator(func):
+        def wrapper(*args, **kwargs):
+            for i in range(num):
+                print('wrapper of decorator')
+                func(*args, **kwargs)
+        return wrapper
+    return my_decorator
+@repeat(4)
 def greet(message):
     print(message)
 
 greet('hello world')
-# decorator with many parameters
+#保持原来的
+import functools
 def my_decorator(func):
-    def wrapper(message):
+    @functools.wraps(func)
+    def wrapper(*args,**kwargs):
         print('wrapper of decorator')
-        func(message)
+        func(*args,**kwargs)
     return wrapper
 
-@my_decorator
-def greet(message):
-    print(message)
 
-greet('hello world')
