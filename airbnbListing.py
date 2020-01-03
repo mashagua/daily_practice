@@ -20,8 +20,17 @@ nlp = spacy.load("en")
 corpus = st.CorpusFromPandas(
     listing,
     category_col="review_scores_rating",
-    text_col="description",nlp=nlp).build().remove_terms(
+    text_col="description", nlp=nlp).build().remove_terms(
         ENGLISH_STOP_WORDS,
     ignore_absences=True)
 # html=st.produce_sc
+html = st.produce_scattertext_explorer(
+    corpus,
+    category="4.0-5.0",
+    category_name="Star Rating 4.0 - 5.0",
+    not_category_name="All Other Ratings",
+    width_in_pixels=1000,
+    minimum_term_frequency=200)
+open("term-associations.html","wb").write(html.encode("utf-8"))
+feat_builder=st.FeatsFromOnlyEmpath()
 
